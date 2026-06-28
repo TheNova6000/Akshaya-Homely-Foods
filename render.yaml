@@ -31,11 +31,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: orderbot-backend
-          property: url
-          envVarKey: RENDER_EXTERNAL_URL
+        sync: false
 
 databases:
   - name: orderbot-db
