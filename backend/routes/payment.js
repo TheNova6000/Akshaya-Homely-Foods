@@ -1,15 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Razorpay = require('razorpay');
 const prisma = require('../db');
 
-// Instantiate Razorpay client using environment variables
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET
-});
-
-// POST /api/payment/create-order - Create Razorpay order
 router.post('/create-order', async (req, res) => {
   try {
     const { amount, orderId } = req.body;
@@ -18,31 +10,23 @@ router.post('/create-order', async (req, res) => {
       return res.status(400).json({ error: 'Amount and Order ID are required' });
     }
 
-    const options = {
-      amount: Math.round(parseFloat(amount) * 100), // Razorpay expects amount in paise
-      currency: 'INR',
-      receipt: `order_rcpt_${orderId}`
-    };
-
-    const rzpOrder = await razorpay.orders.create(options);
-
     return res.json({
-      razorpayOrderId: rzpOrder.id,
-      amount: rzpOrder.amount,
-      currency: rzpOrder.currency,
-      keyId: process.env.RAZORPAY_KEY_ID
+      razorpayOrderId: `dummy_${orderId}_${Date.now()}`,
+      amount: Math.round(parseFloat(amount) * 100),
+      currency: 'INR',
+      keyId: 'dummy_key',
+      mode: 'dummy'
     });
   } catch (error) {
-    console.error('Create Razorpay order error:', error);
+    console.error('Create payment order error:', error);
     return res.status(500).json({ error: 'Failed to create payment order' });
   }
 });
 
-// PATCH /api/payment/order/:id/status - Update order payment status
 router.patch('/order/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
-    const { payment_status } = req.body; // "Paid" or "Failed"
+    const { payment_status } = req.body;
 
     const orderId = parseInt(id, 10);
     if (isNaN(orderId)) {

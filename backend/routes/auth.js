@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
 
       const token = jwt.sign(
         { id: admin.id, username: admin.username, role: 'admin' },
-        process.env.JWT_SECRET || 'super_secret_jwt_hash_key_123_456',
+        process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
 
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 
       const token = jwt.sign(
         { id: customer.id, name: customer.name, whatsapp_number: customer.whatsapp_number, email: customer.email, role: 'customer' },
-        process.env.JWT_SECRET || 'super_secret_jwt_hash_key_123_456',
+        process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
 

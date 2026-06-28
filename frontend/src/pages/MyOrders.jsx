@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShoppingBag, ArrowLeft, LogOut, MessageSquare, Loader2, Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { LogOut, MessageSquare, Loader2, Calendar, MapPin } from 'lucide-react';
+import toast from 'react-hot-toast';
 import './CustomerChat.css';
 
 export default function MyOrders() {
   const navigate = useNavigate();
-  const [videoFailed, setVideoFailed] = useState(false);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +25,11 @@ export default function MyOrders() {
         setOrders(data);
       } catch (err) {
         console.error(err);
+        if (err.message === 'Unauthenticated') {
+          toast.error('Please log in to view your orders.', { id: 'auth-error' });
+        } else {
+          toast.error('Failed to load your orders. Please try again later.', { id: 'orders-error' });
+        }
       } finally {
         setLoading(false);
       }
@@ -41,35 +46,13 @@ export default function MyOrders() {
 
   return (
     <div className="ai-page-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* ── BACKGROUND VIDEO ── */}
-      {!videoFailed && (
-        <video
-          className="bg-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          onError={() => setVideoFailed(true)}
-        >
-          <source src="/Create_a_realistic_cinematic_a.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* ── VIDEO OVERLAY (dark overlay) ── */}
-      {!videoFailed && <div className="video-overlay" aria-hidden="true" />}
-
-      {/* ── FALLBACK GRADIENT BLOBS ── */}
-      {videoFailed && (
-        <>
-          <div className="bg-canvas" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-          <div className="bg-overlay" aria-hidden="true" />
-        </>
-      )}
+      {/* ── GRADIENT BLOBS ── */}
+      <div className="bg-canvas" aria-hidden="true">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
+      <div className="bg-overlay" aria-hidden="true" />
 
       {/* ── NAVBAR ── */}
       <header className="chat-header" style={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 100, borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(15, 15, 26, 0.4)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>

@@ -47,18 +47,33 @@ async function main() {
 
   console.log('Seeding menu items...');
   const menuItems = [];
-  const menuItemData = [
-    { name: 'Avakaya Pickle (Mango)', category: 'Veg Pickles', price: 180.0, is_available: true },
-    { name: 'Gongura Pickle', category: 'Veg Pickles', price: 160.0, is_available: true },
-    { name: 'Chicken Pickle', category: 'Non Veg Pickles', price: 450.0, is_available: true },
-    { name: 'Mutton Pickle', category: 'Non Veg Pickles', price: 650.0, is_available: true },
-    { name: 'Kajjikayalu', category: 'Sweets', price: 200.0, is_available: true },
-    { name: 'Nuvvula Laddu', category: 'Traditional Laddus', price: 150.0, is_available: true },
-    { name: 'Janthikalu', category: 'Snacks Hot Items', price: 120.0, is_available: true },
-    { name: 'Chekkalu', category: 'Snacks Hot Items', price: 130.0, is_available: true },
-    { name: 'Kandi Podi', category: 'Powders Podis', price: 140.0, is_available: true },
-    { name: 'Karivepaku Podi', category: 'Powders Podis', price: 130.0, is_available: false },
-  ];
+  
+  let menuItemData = [];
+  try {
+    const scrapedProducts = require('./scraped_products.json');
+    menuItemData = scrapedProducts.map(p => ({
+      name: p.name,
+      category: p.category,
+      price: parseFloat(p.price) || 200.0,
+      image_url: p.image || null,
+      product_url: p.url || null,
+      is_available: p.price > 0
+    }));
+  } catch (err) {
+    console.error('Could not load scraped_products.json, using default seed items:', err);
+    menuItemData = [
+      { name: 'Avakaya Pickle (Mango)', category: 'Veg Pickles', price: 180.0, is_available: true },
+      { name: 'Gongura Pickle', category: 'Veg Pickles', price: 160.0, is_available: true },
+      { name: 'Chicken Pickle', category: 'Non Veg Pickles', price: 450.0, is_available: true },
+      { name: 'Mutton Pickle', category: 'Non Veg Pickles', price: 650.0, is_available: true },
+      { name: 'Kajjikayalu', category: 'Sweets', price: 200.0, is_available: true },
+      { name: 'Nuvvula Laddu', category: 'Traditional Laddus', price: 150.0, is_available: true },
+      { name: 'Janthikalu', category: 'Snacks Hot Items', price: 120.0, is_available: true },
+      { name: 'Chekkalu', category: 'Snacks Hot Items', price: 130.0, is_available: true },
+      { name: 'Kandi Podi', category: 'Powders Podis', price: 140.0, is_available: true },
+      { name: 'Karivepaku Podi', category: 'Powders Podis', price: 130.0, is_available: false },
+    ];
+  }
 
   for (const m of menuItemData) {
     const item = await prisma.menuItem.create({ data: m });
@@ -96,7 +111,7 @@ async function main() {
       ],
       total_amount: 850.0,
       payment_status: 'Paid',
-      order_status: 'In Preparation',
+      order_status: 'Preparing',
       delivery_address: customers[1].address,
       created_at: getTodayWithHour(10), // 10 AM
     },
@@ -119,7 +134,7 @@ async function main() {
       ],
       total_amount: 300.0,
       payment_status: 'Paid',
-      order_status: 'Dispatched',
+      order_status: 'Out for Delivery',
       delivery_address: customers[3].address,
       created_at: getTodayWithHour(12), // 12 PM
     },
@@ -153,7 +168,7 @@ async function main() {
       ],
       total_amount: 900.0,
       payment_status: 'Paid',
-      order_status: 'In Preparation',
+      order_status: 'Preparing',
       delivery_address: customers[1].address,
       created_at: getTodayWithHour(15), // 3 PM
     },
@@ -177,7 +192,7 @@ async function main() {
       ],
       total_amount: 890.0,
       payment_status: 'Paid',
-      order_status: 'Dispatched',
+      order_status: 'Out for Delivery',
       delivery_address: customers[3].address,
       created_at: getTodayWithHour(18), // 6 PM
     },

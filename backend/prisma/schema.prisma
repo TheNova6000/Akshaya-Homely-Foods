@@ -1,7 +1,6 @@
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -37,6 +36,7 @@ model MenuItem {
   price        Float
   is_available Boolean  @default(true)
   image_url    String?
+  product_url  String?
   created_at   DateTime @default(now())
 
   @@map("menu_items")

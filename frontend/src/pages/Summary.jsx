@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { fetchSummaryToday } from '../utils/api';
@@ -69,6 +68,16 @@ export default function Summary() {
           ) : isError ? (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--danger)' }}>
               Failed to load daily chart data.
+            </div>
+          ) : chartData.length === 0 ? (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', gap: '0.75rem', minHeight: '250px' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.4 }}>
+                <rect x="3" y="12" width="4" height="9" rx="1" />
+                <rect x="10" y="8" width="4" height="13" rx="1" />
+                <rect x="17" y="4" width="4" height="17" rx="1" />
+              </svg>
+              <span style={{ fontWeight: 500, fontSize: '0.95rem' }}>No orders yet today</span>
+              <span style={{ fontSize: '0.8rem' }}>Hourly data will appear here as orders come in.</span>
             </div>
           ) : (
             <div style={{ width: '100%', height: 260 }}>

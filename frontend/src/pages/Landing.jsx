@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChefHat, ShoppingBag, LogIn, LogOut, MessageSquare } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { LogIn, LogOut, ShoppingBag } from 'lucide-react';
 import './CustomerChat.css';
 
 export default function Landing() {
   const navigate = useNavigate();
-  const [videoFailed, setVideoFailed] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [customerName, setCustomerName] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,8 +25,8 @@ export default function Landing() {
     const token = localStorage.getItem('customer_token');
     const customer = JSON.parse(localStorage.getItem('customer') || '{}');
     if (token && customer.name) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoggedIn(true);
-      setCustomerName(customer.name);
     }
   }, []);
 
@@ -41,36 +39,14 @@ export default function Landing() {
 
   return (
     <div className="ai-page-container">
-      {/* ── BACKGROUND VIDEO ── */}
-      {!videoFailed && (
-        <video
-          className="bg-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          onError={() => setVideoFailed(true)}
-        >
-          <source src="/Create_a_realistic_cinematic_a.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* ── VIDEO OVERLAY (dark overlay) ── */}
-      {!videoFailed && <div className="video-overlay" aria-hidden="true" />}
-
-      {/* ── FALLBACK GRADIENT BLOBS ── */}
-      {videoFailed && (
-        <>
-          <div className="bg-canvas" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-            <div className="blob blob-4" />
-          </div>
-          <div className="bg-overlay" aria-hidden="true" />
-        </>
-      )}
+      {/* ── GRADIENT BLOBS ── */}
+      <div className="bg-canvas" aria-hidden="true">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+        <div className="blob blob-4" />
+      </div>
+      <div className="bg-overlay" aria-hidden="true" />
 
       {/* ── NAVBAR ── */}
       <header className={`premium-navbar ${isScrolled ? 'scrolled' : ''}`}>

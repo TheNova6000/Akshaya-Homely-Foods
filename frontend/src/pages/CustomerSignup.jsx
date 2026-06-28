@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,8 +24,6 @@ const signupSchema = z.object({
 export default function CustomerSignup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -61,36 +59,14 @@ export default function CustomerSignup() {
   };
 
   return (
-    <div className="ai-page-container flex-center" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
-      {/* ── BACKGROUND VIDEO ── */}
-      {!videoFailed && (
-        <video
-          className="bg-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          onError={() => setVideoFailed(true)}
-        >
-          <source src="/Create_a_realistic_cinematic_a.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* ── VIDEO OVERLAY (dark overlay) ── */}
-      {!videoFailed && <div className="video-overlay" aria-hidden="true" />}
-
-      {/* ── FALLBACK GRADIENT BLOBS ── */}
-      {videoFailed && (
-        <>
-          <div className="bg-canvas" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-          <div className="bg-overlay" aria-hidden="true" />
-        </>
-      )}
+    <div className="ai-page-container flex-center" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', background: '#0a0a0a', position: 'relative', overflow: 'hidden' }}>
+      {/* ── GRADIENT BLOBS ── */}
+      <div className="bg-canvas" aria-hidden="true">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
+      <div className="bg-overlay" aria-hidden="true" />
 
       <div className="header-logo" style={{ position: 'absolute', top: '1.5rem', left: '2rem', cursor: 'pointer', zIndex: 100 }} onClick={() => navigate('/')}>
         <img src="/logo.png" alt="Akshaya Homely Foods Logo" className="header-logo-img" />

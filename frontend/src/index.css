@@ -62,10 +62,12 @@ button, input, select, textarea {
 }
 
 .main-content {
-  flex: 1;
+  flex: 1 1 0%;
+  width: 100%;
   margin-left: 260px; /* Width of fixed sidebar */
   padding: 2rem;
   min-width: 0; /* Prevents flex items from overflowing */
+  max-width: calc(100vw - 260px);
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -347,6 +349,7 @@ button, input, select, textarea {
 /* Tables */
 .table-container {
   overflow-x: auto;
+  width: 100%;
   border-radius: var(--radius-md);
   border: 1px solid var(--surface-border);
   background-color: var(--surface);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { fetchOrders, updateOrderStatus } from '../utils/api';
@@ -149,8 +149,15 @@ export default function Orders() {
                 </tr>
               ) : orders.length === 0 ? (
                 <tr>
-                  <td colSpan="9" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-                    No orders found matching the filter selection.
+                  <td colSpan="9" style={{ textAlign: 'center', padding: '3rem 2rem', color: 'var(--text-muted)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.4 }}>
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      </svg>
+                      <span style={{ fontWeight: 500, fontSize: '0.95rem' }}>No orders found</span>
+                      <span style={{ fontSize: '0.8rem' }}>Try adjusting or clearing the filters above.</span>
+                    </div>
                   </td>
                 </tr>
               ) : (

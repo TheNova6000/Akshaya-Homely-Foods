@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp, Plus, Loader2, LogOut, User, ShoppingBag, MapPin, ChevronDown } from 'lucide-react';
+import { ArrowUp, Plus, Loader2, LogOut, User } from 'lucide-react';
 import toast from 'react-hot-toast';
 import './CustomerChat.css';
 
@@ -223,6 +223,7 @@ function SplashScreen({ onDone }) {
   useEffect(() => {
     const t = setTimeout(onDone, 1600);
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run once on mount to prevent timeout resets on page re-renders
 
   return (
@@ -253,20 +254,6 @@ function SplashScreen({ onDone }) {
   );
 }
 
-// ─── RAZORPAY SCRIPT LOADER ──────────────────────────────────────────────────
-const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    if (window.Razorpay) {
-      resolve(true);
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
 
 // ─── STABLE INPUT BOX COMPONENT ──────────────────────────────────────────────
 const InputBox = React.forwardRef(function InputBox(
@@ -292,16 +279,87 @@ const InputBox = React.forwardRef(function InputBox(
         onChange={onChange}
         onKeyDown={onKeyDown}
         rows={1}
+        aria-label="Type your message"
       />
       <div className="input-actions">
         <span className="input-hint">Press Enter to send</span>
-        <button className="send-btn" disabled={!value.trim()} onClick={onSend} type="button">
+        <button className="send-btn" disabled={!value.trim()} onClick={onSend} type="button" aria-label="Send message">
           <ArrowUp size={18} strokeWidth={2.5} />
         </button>
       </div>
     </div>
   );
 });
+
+// Helper to safely load state from localStorage with corruption & 24hr expiration protection
+const loadPersistedState = () => {
+  const defaultState = {
+    isChatActive: false,
+    messages: [],
+    currentStep: STEPS.IDLE,
+    selectedItem: null,
+    quantity: null,
+    deliveryAddress: '',
+  };
+
+  try {
+    const savedTime = localStorage.getItem('ahf_chat_timestamp');
+    if (!savedTime) return defaultState;
+
+    // Check 24 hour expiry (86,400,000 milliseconds)
+    const now = Date.now();
+    if (now - parseInt(savedTime, 10) > 24 * 60 * 60 * 1000) {
+      const keys = [
+        'ahf_chat_timestamp', 'ahf_chat_active', 'ahf_chat_messages',
+        'ahf_chat_step', 'ahf_chat_selected_item', 'ahf_chat_quantity', 'ahf_chat_address'
+      ];
+      keys.forEach(k => {
+        try {
+          localStorage.removeItem(k);
+        } catch {
+          // ignore
+        }
+      });
+      return defaultState;
+    }
+
+    const savedActive = localStorage.getItem('ahf_chat_active');
+    const savedMessages = localStorage.getItem('ahf_chat_messages');
+    const savedStep = localStorage.getItem('ahf_chat_step');
+    const savedItem = localStorage.getItem('ahf_chat_selected_item');
+    const savedQty = localStorage.getItem('ahf_chat_quantity');
+    const savedAddr = localStorage.getItem('ahf_chat_address');
+
+    return {
+      isChatActive: savedActive === 'true',
+      messages: savedMessages ? JSON.parse(savedMessages) : [],
+      currentStep: savedStep || STEPS.IDLE,
+      selectedItem: savedItem ? JSON.parse(savedItem) : null,
+      quantity: savedQty ? parseInt(savedQty, 10) : null,
+      deliveryAddress: savedAddr || '',
+    };
+  } catch (err) {
+    console.error('Failed to parse or load persisted chat state:', err);
+    return defaultState;
+  }
+};
+
+// Client-side Prompt injection check
+function detectPromptInjection(text) {
+  const lowerText = (text || '').toLowerCase();
+  const injectionPatterns = [
+    'ignore all previous',
+    'ignore previous instructions',
+    'forget your instructions',
+    'forget previous instructions',
+    'system prompt',
+    'you are now a',
+    'act as a',
+    'bypass',
+    'override guidelines'
+  ];
+  return injectionPatterns.some(pattern => lowerText.includes(pattern));
+}
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function CustomerChat() {
@@ -310,18 +368,21 @@ export default function CustomerChat() {
   const handleSplashDone = useCallback(() => {
     setShowSplash(false);
   }, []);
-  const [videoFailed, setVideoFailed] = useState(false);
-  const [isChatActive, setIsChatActive] = useState(false);
+  // Load state from localStorage on startup
+  const persistedState = loadPersistedState();
+
+  const [isChatActive, setIsChatActive] = useState(persistedState.isChatActive);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(persistedState.messages);
   const [menuItems, setMenuItems] = useState([]);
   const [isMenuLoading, setIsMenuLoading] = useState(false);
+  const [menuFetchError, setMenuFetchError] = useState(false);
 
-  const [currentStep, setCurrentStep] = useState(STEPS.IDLE);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [currentStep, setCurrentStep] = useState(persistedState.currentStep);
+  const [selectedItem, setSelectedItem] = useState(persistedState.selectedItem);
+  const [quantity, setQuantity] = useState(persistedState.quantity);
+  const [deliveryAddress, setDeliveryAddress] = useState(persistedState.deliveryAddress);
 
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [customerName, setCustomerName] = useState(() => {
@@ -343,9 +404,11 @@ export default function CustomerChat() {
   const [isPaymentInitiating, setIsPaymentInitiating] = useState(false);
 
   const messagesEndRef = useRef(null);
+  const messagesAreaRef = useRef(null);
   const inputRef = useRef(null);
   const interactionLocked = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
+  const typingTimeoutRef = useRef(null);
 
   const setLock = useCallback((val) => {
     interactionLocked.current = val;
@@ -354,8 +417,56 @@ export default function CustomerChat() {
 
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Pruning logic to limit messages and preserve onboarding greeting
+  const setMessagesPruned = useCallback((newMessagesOrFn) => {
+    const LIMIT = 30;
+    setMessages((prev) => {
+      const resolvedMessages = typeof newMessagesOrFn === 'function' ? newMessagesOrFn(prev) : newMessagesOrFn;
+      if (resolvedMessages.length > LIMIT) {
+        const greeting = resolvedMessages[0];
+        const recent = resolvedMessages.slice(resolvedMessages.length - (LIMIT - 1));
+        return [greeting, ...recent];
+      }
+      return resolvedMessages;
+    });
+  }, []);
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('ahf_chat_timestamp', Date.now().toString());
+      localStorage.setItem('ahf_chat_active', isChatActive.toString());
+      localStorage.setItem('ahf_chat_messages', JSON.stringify(messages));
+      localStorage.setItem('ahf_chat_step', currentStep);
+      localStorage.setItem('ahf_chat_selected_item', selectedItem ? JSON.stringify(selectedItem) : '');
+      localStorage.setItem('ahf_chat_quantity', quantity !== null ? quantity.toString() : '');
+      localStorage.setItem('ahf_chat_address', deliveryAddress || '');
+    } catch (e) {
+      console.error('Failed to save state to localStorage:', e);
+    }
+  }, [isChatActive, messages, currentStep, selectedItem, quantity, deliveryAddress]);
+
+  const clearPersistedState = useCallback(() => {
+    try {
+      const keys = [
+        'ahf_chat_timestamp', 'ahf_chat_active', 'ahf_chat_messages',
+        'ahf_chat_step', 'ahf_chat_selected_item', 'ahf_chat_quantity', 'ahf_chat_address'
+      ];
+      keys.forEach(k => {
+        try {
+          localStorage.removeItem(k);
+        } catch {
+          // ignore
+        }
+      });
+    } catch (e) {
+      console.error('Failed to clear state from localStorage:', e);
+    }
+  }, []);
+
   // Reset scroll state when transitioning modes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsScrolled(false);
   }, [isChatActive]);
 
@@ -383,7 +494,8 @@ export default function CustomerChat() {
   // ── Auto greeting ──
   useEffect(() => {
     if (messages.length === 0) {
-      setMessages([
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMessagesPruned([
         createBotMessage({
           type: 'text',
           text: `Welcome to Akshaya Homely Foods 👋\n\nI am your AI Ordering Assistant. You can ask for the menu, browse items, and place your order directly here!\n\nTo get started, send a message like "Show menu" or "Start order".`
@@ -391,27 +503,36 @@ export default function CustomerChat() {
       ]);
       setCurrentStep(STEPS.MENU);
     }
-  }, [messages.length]);
+  }, [messages.length, setMessagesPruned]);
 
   // ── Fetch menu ──
-  useEffect(() => {
-    const load = async () => {
-      setIsMenuLoading(true);
-      try {
-        const res = await fetch(`${API_BASE}/menu/available`);
-        if (!res.ok) throw new Error('Failed to fetch menu');
-        setMenuItems(await res.json());
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsMenuLoading(false);
-      }
-    };
-    load();
+  const loadMenu = useCallback(async () => {
+    setIsMenuLoading(true);
+    setMenuFetchError(false);
+    try {
+      const res = await fetch(`${API_BASE}/menu/available`);
+      if (!res.ok) throw new Error('Failed to fetch menu');
+      setMenuItems(await res.json());
+    } catch (e) {
+      console.error(e);
+      setMenuFetchError(true);
+      toast.error("Failed to load today's menu. Please try again.", { id: 'menu-error' });
+    } finally {
+      setIsMenuLoading(false);
+    }
   }, []);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadMenu();
+  }, [loadMenu]);
+
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesAreaRef.current) {
+      messagesAreaRef.current.scrollTop = messagesAreaRef.current.scrollHeight;
+    } else {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, []);
 
   useEffect(() => {
@@ -425,19 +546,34 @@ export default function CustomerChat() {
     }
   }, [isChatActive, isTyping]);
 
+  // ── Stop responding handler ──
+  const handleStop = useCallback(() => {
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+      setIsTyping(false);
+      setLock(false);
+      toast.success('AI generation stopped.', { id: 'stop-toast' });
+    }
+  }, [setLock]);
+
   // ── Add bot message after typing delay ──
   const addBotMessage = useCallback((payload, delay = 900) => {
     return new Promise((resolve) => {
       setIsTyping(true);
-      setTimeout(() => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      typingTimeoutRef.current = setTimeout(() => {
         setIsTyping(false);
+        typingTimeoutRef.current = null;
         const msg = createBotMessage(payload);
-        setMessages((prev) => [...prev, msg]);
+        setMessagesPruned((prev) => [...prev, msg]);
         setLock(false);
         resolve(msg);
       }, delay);
     });
-  }, [setLock]);
+  }, [setLock, setMessagesPruned]);
 
   // ── Item select ──
   const handleSelectItem = useCallback(async (item) => {
@@ -446,19 +582,28 @@ export default function CustomerChat() {
     setSelectedItem(item);
     setQuantity(null);
     setCurrentStep(STEPS.QUANTITY);
-    setMessages((prev) => [...prev, createUserMessage(`I'll take ${item.name}`)]);
+    setMessagesPruned((prev) => [...prev, createUserMessage(`I'll take ${item.name}`)]);
     // Show a selected-item mini card + ask for quantity
     await addBotMessage({
       type: 'selected_item_card',
       item,
       text: `Excellent choice! 😊\n\nHow many quantities would you like to order?`,
     }, 900);
-  }, [addBotMessage]);
+  }, [addBotMessage, setMessagesPruned, setLock]);
 
   // ── Core message processor ──
   const processMessage = useCallback(async (text) => {
     if (interactionLocked.current) return;
     setLock(true);
+    setIsTyping(true);
+
+    if (detectPromptInjection(text)) {
+      await addBotMessage({
+        type: 'text',
+        text: "I'm sorry, but I can only assist with ordering food from Akshaya Homely Foods."
+      }, 800);
+      return;
+    }
 
     // ── QUANTITY step: validate and process ──
     if (currentStep === STEPS.QUANTITY) {
@@ -470,6 +615,14 @@ export default function CustomerChat() {
         await addBotMessage({
           type: 'text',
           text: '⚠️ Please enter a valid quantity.\n\nExamples: 1, 2, 3\n(Must be a whole number greater than 0)',
+        }, 700);
+        return;
+      }
+
+      if (parsed > 50) {
+        await addBotMessage({
+          type: 'text',
+          text: '⚠️ Maximum quantity per order is 50.\n\nPlease enter a quantity between 1 and 50. For bulk orders, please contact us on WhatsApp.',
         }, 700);
         return;
       }
@@ -542,8 +695,9 @@ export default function CustomerChat() {
           text: isMenuLoading ? 'Menu is still loading, one moment...' : 'No items available right now. Please check back soon!',
         }, 700);
       } else {
-        setMessages((prev) => [...prev, createBotMessage({ type: 'menu_carousel', items: menuItems })]);
+        setMessagesPruned((prev) => [...prev, createBotMessage({ type: 'menu_carousel', items: menuItems })]);
         setLock(false);
+        setIsTyping(false);
       }
       return;
     }
@@ -552,15 +706,16 @@ export default function CustomerChat() {
       type: 'text',
       text: 'I can help you order! Say "Hi" or "Show menu" to browse our freshly prepared items. 🫙',
     });
-  }, [currentStep, menuItems, isMenuLoading, selectedItem, quantity, addBotMessage, setLock]);
+  }, [currentStep, menuItems, isMenuLoading, selectedItem, quantity, addBotMessage, setLock, setMessagesPruned]);
 
   // ── Send ──
   const handleSend = useCallback(async (textOverride) => {
     const text = typeof textOverride === 'string' ? textOverride : inputText;
     if (!text.trim() || interactionLocked.current) return;
     if (!isChatActive) setIsChatActive(true);
-    setMessages((prev) => [...prev, createUserMessage(text)]);
+    setMessagesPruned((prev) => [...prev, createUserMessage(text)]);
     setInputText('');
+    setIsTyping(true);
     
     // Focus immediately after clearing text
     setTimeout(() => {
@@ -568,7 +723,7 @@ export default function CustomerChat() {
     }, 50);
 
     await processMessage(text);
-  }, [inputText, isChatActive, processMessage]);
+  }, [inputText, isChatActive, processMessage, setMessagesPruned]);
 
   const handleCollectDetailsAndPay = useCallback(async () => {
     if (!customerName.trim() || !customerWhatsapp.trim() || isPaymentInitiating) return;
@@ -610,102 +765,35 @@ export default function CustomerChat() {
 
       // Transition chat UI step
       setCurrentStep(STEPS.PAYMENT);
-      setMessages((prev) => [...prev, createUserMessage('Confirm Order')]);
+      setMessagesPruned((prev) => [...prev, createUserMessage('Confirm Order')]);
 
       await addBotMessage({
         type: 'text',
-        text: 'Initiating secure payment via Razorpay... 💳',
+        text: 'Processing your order... 💳',
       }, 500);
 
-      // 2. Create Razorpay order
-      const subtotal = selectedItem.price * quantity;
-      const paymentRes = await fetch(`${API_BASE}/payment/create-order`, {
-        method: 'POST',
+      // Simulated payment processing delay for natural UX
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // 2. Mark payment as Paid (dummy payment mode)
+      const updateRes = await fetch(`${API_BASE}/payment/order/${dbOrderId}/status`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: subtotal,
-          orderId: dbOrderId
-        })
+        body: JSON.stringify({ payment_status: 'Paid' })
       });
 
-      if (!paymentRes.ok) {
-        throw new Error('Failed to create Razorpay payment order');
-      }
+      if (!updateRes.ok) throw new Error('Failed to update payment status');
 
-      const paymentData = await paymentRes.json();
+      await addBotMessage({
+        type: 'order_success_card',
+        orderId: dbOrderId,
+        amountPaid: selectedItem.price * quantity,
+        estimatedTime: '30-45 Minutes',
+        text: `Thank you, ${customerName.trim()}! Your order has been placed successfully.\n\nWe will update you on WhatsApp at ${customerWhatsapp.trim()}!`,
+      }, 1000);
 
-      // 3. Load Razorpay and open popup
-      const loaded = await loadRazorpayScript();
-      if (!loaded) {
-        throw new Error('Razorpay SDK failed to load. Please check your internet connection.');
-      }
-
-      const options = {
-        key: paymentData.keyId,
-        amount: paymentData.amount,
-        currency: paymentData.currency,
-        name: 'Akshaya Homely Foods',
-        description: `Order #${dbOrderId} - ${quantity} x ${selectedItem.name}`,
-        order_id: paymentData.razorpayOrderId,
-        handler: async function (response) {
-          // 4. On success: Update payment_status = PAID
-          try {
-            const updateRes = await fetch(`${API_BASE}/payment/order/${dbOrderId}/status`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ payment_status: 'Paid' })
-            });
-
-            if (!updateRes.ok) throw new Error('Failed to update status to Paid');
-
-            await addBotMessage({
-              type: 'order_success_card',
-              orderId: dbOrderId,
-              amountPaid: selectedItem.price * quantity,
-              estimatedTime: '30-45 Minutes',
-              text: `Thank you, ${customerName.trim()}! Your payment has been received.\n\nWe will update you on WhatsApp at ${customerWhatsapp.trim()}!`,
-            }, 1000);
-
-            setCurrentStep(STEPS.SUCCESS);
-          } catch (e) {
-            console.error('Update status to Paid failed:', e);
-            toast.error('Payment verified but failed to update status. Please contact support.');
-          }
-        },
-        prefill: {
-          name: customerName.trim(),
-          contact: customerWhatsapp.trim()
-        },
-        theme: {
-          color: '#ea580c'
-        },
-        modal: {
-          ondismiss: async function () {
-            // 5. On failure: Update payment_status = FAILED
-            try {
-              const updateRes = await fetch(`${API_BASE}/payment/order/${dbOrderId}/status`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ payment_status: 'Failed' })
-              });
-
-              if (!updateRes.ok) throw new Error('Failed to update status to Failed');
-
-              await addBotMessage({
-                type: 'text',
-                text: `Payment failed or was cancelled. ❌\n\nOrder #${dbOrderId} has been marked as Failed. You can try to place a new order whenever you are ready!`,
-              }, 1000);
-
-              setCurrentStep(STEPS.IDLE);
-            } catch (e) {
-              console.error('Update status to Failed failed:', e);
-            }
-          }
-        }
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      clearPersistedState();
+      setCurrentStep(STEPS.SUCCESS);
 
     } catch (err) {
       console.error(err);
@@ -714,7 +802,7 @@ export default function CustomerChat() {
     } finally {
       setIsPaymentInitiating(false);
     }
-  }, [customerName, customerWhatsapp, isPaymentInitiating, deliveryAddress, selectedItem, quantity, addBotMessage, setLock]);
+  }, [customerName, customerWhatsapp, isPaymentInitiating, deliveryAddress, selectedItem, quantity, addBotMessage, setLock, clearPersistedState, setMessagesPruned]);
 
   const handleConfirmOrder = useCallback(() => {
     handleCollectDetailsAndPay();
@@ -724,12 +812,13 @@ export default function CustomerChat() {
     if (interactionLocked.current) return;
     setLock(true);
 
-    setMessages((prev) => [...prev, createUserMessage('Cancel Order')]);
+    setMessagesPruned((prev) => [...prev, createUserMessage('Cancel Order')]);
 
     setSelectedItem(null);
     setQuantity(null);
     setDeliveryAddress('');
     setCurrentStep(STEPS.MENU);
+    clearPersistedState();
 
     await addBotMessage({
       type: 'text',
@@ -742,10 +831,11 @@ export default function CustomerChat() {
         text: isMenuLoading ? 'Menu is still loading, one moment...' : 'No items available right now. Please check back soon!',
       }, 700);
     } else {
-      setMessages((prev) => [...prev, createBotMessage({ type: 'menu_carousel', items: menuItems })]);
+      setMessagesPruned((prev) => [...prev, createBotMessage({ type: 'menu_carousel', items: menuItems })]);
       setLock(false);
+      setIsTyping(false);
     }
-  }, [menuItems, isMenuLoading, addBotMessage, setLock]);
+  }, [menuItems, isMenuLoading, addBotMessage, setLock, setMessagesPruned, clearPersistedState]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -905,7 +995,7 @@ export default function CustomerChat() {
             {msg.type === 'order_success_card' && (
               <motion.div
                 className="order-summary-card"
-                style={{ background: 'rgba(20, 30, 25, 0.85)', borderColor: 'rgba(34, 197, 94, 0.25)', boxHeight: 'auto', boxShadow: '0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.08)' }}
+                  style={{ background: 'rgba(20, 30, 25, 0.85)', borderColor: 'rgba(34, 197, 94, 0.25)', boxShadow: '0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.08)' }}
                 initial={{ opacity: 0, y: 15, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -997,36 +1087,14 @@ export default function CustomerChat() {
 
       {!showSplash && (
         <div className="ai-page-container">
-          {/* ── BACKGROUND VIDEO ── */}
-          {!videoFailed && (
-            <video
-              className="bg-video"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              onError={() => setVideoFailed(true)}
-            >
-              <source src="/Create_a_realistic_cinematic_a.mp4" type="video/mp4" />
-            </video>
-          )}
-
-          {/* ── VIDEO OVERLAY (dark overlay) ── */}
-          {!videoFailed && <div className="video-overlay" aria-hidden="true" />}
-
-          {/* ── FALLBACK GRADIENT BLOBS (if video fails) ── */}
-          {videoFailed && (
-            <>
-              <div className="bg-canvas" aria-hidden="true">
-                <div className="blob blob-1" />
-                <div className="blob blob-2" />
-                <div className="blob blob-3" />
-                <div className="blob blob-4" />
-              </div>
-              <div className="bg-overlay" aria-hidden="true" />
-            </>
-          )}
+          {/* ── GRADIENT BLOBS ── */}
+          <div className="bg-canvas" aria-hidden="true">
+            <div className="blob blob-1" />
+            <div className="blob blob-2" />
+            <div className="blob blob-3" />
+            <div className="blob blob-4" />
+          </div>
+          <div className="bg-overlay" aria-hidden="true" />
 
           {/* ── PERSISTENT STICKY NAVBAR ── */}
           <motion.header
@@ -1227,7 +1295,40 @@ export default function CustomerChat() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.45, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ position: 'relative' }}
                 >
+                  {isTyping && (
+                    <motion.button
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      onClick={handleStop}
+                      style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        marginBottom: '1rem',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        backdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '99px',
+                        padding: '0.5rem 1.25rem',
+                        color: '#f87171',
+                        fontWeight: '600',
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                        zIndex: 30
+                      }}
+                    >
+                      <span style={{ width: '8px', height: '8px', background: '#f87171', borderRadius: '1px' }} />
+                      Stop Responding
+                    </motion.button>
+                  )}
                   <InputBox
                     ref={inputRef}
                     value={inputText}
@@ -1248,6 +1349,36 @@ export default function CustomerChat() {
                   >
                     <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
                     Fetching today's menu...
+                  </motion.div>
+                )}
+
+                {/* Menu fetch error with retry */}
+                {menuFetchError && !isMenuLoading && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', marginTop: '1rem' }}
+                  >
+                    <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem' }}>
+                      Could not load the menu. Please try again.
+                    </span>
+                    <button
+                      onClick={loadMenu}
+                      style={{
+                        background: 'rgba(249, 115, 22, 0.15)',
+                        border: '1px solid rgba(249, 115, 22, 0.4)',
+                        color: '#fb923c',
+                        fontWeight: '600',
+                        fontSize: '0.8rem',
+                        padding: '0.5rem 1.25rem',
+                        borderRadius: '50px',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      Retry Loading Menu
+                    </button>
                   </motion.div>
                 )}
 
@@ -1288,7 +1419,7 @@ export default function CustomerChat() {
               >
                 {/* NO sub-header here — navigation is handled entirely by the main sticky navbar above */}
 
-                <main className="messages-area" onScroll={handleMessagesScroll}>
+                <main className="messages-area" onScroll={handleMessagesScroll} role="log" aria-live="polite" ref={messagesAreaRef}>
                   {messages.map((msg) => (
                     <motion.div
                       key={msg.id}
@@ -1302,6 +1433,31 @@ export default function CustomerChat() {
                       </div>
                     </motion.div>
                   ))}
+
+                  {/* Render Quick Action Chips when conversation is just starting */}
+                  {messages.length === 1 && !isTyping && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '1rem', width: '100%', maxWidth: '800px' }}
+                    >
+                      {[
+                        "Show Menu 🫙",
+                        "How do I order? 📋",
+                        "Check today's specials ✨"
+                      ].map((s, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleSend(s.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, '').trim())}
+                          className="example-chip"
+                          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
 
                   {isTyping && (
                     <motion.div
@@ -1318,7 +1474,39 @@ export default function CustomerChat() {
                 </main>
 
                 <div className="chat-input-section">
-                  <div className="chat-input-wrapper">
+                  <div className="chat-input-wrapper" style={{ position: 'relative' }}>
+                    {isTyping && (
+                      <motion.button
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        onClick={handleStop}
+                        style={{
+                          position: 'absolute',
+                          bottom: '100%',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          marginBottom: '1rem',
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          backdropFilter: 'blur(16px)',
+                          border: '1px solid rgba(255, 255, 255, 0.15)',
+                          borderRadius: '99px',
+                          padding: '0.5rem 1.25rem',
+                          color: '#f87171',
+                          fontWeight: '600',
+                          fontSize: '0.8rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                          zIndex: 30
+                        }}
+                      >
+                        <span style={{ width: '8px', height: '8px', background: '#f87171', borderRadius: '1px' }} />
+                        Stop Responding
+                      </motion.button>
+                    )}
                     <InputBox
                       ref={inputRef}
                       value={inputText}

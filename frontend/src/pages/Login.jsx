@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -10,7 +10,6 @@ export default function Login() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
   const [identifierError, setIdentifierError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -25,8 +24,8 @@ export default function Login() {
     if (!password.trim()) {
       setPasswordError('Please enter your password');
       valid = false;
-    } else if (password.length < 4) {
-      setPasswordError('Password must be at least 4 characters');
+    } else if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters');
       valid = false;
     }
     return valid;
@@ -74,37 +73,15 @@ export default function Login() {
   return (
     <div
       className="ai-page-container flex-center"
-      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', position: 'relative', overflow: 'hidden' }}
     >
-      {/* ── BACKGROUND VIDEO ── */}
-      {!videoFailed && (
-        <video
-          className="bg-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          onError={() => setVideoFailed(true)}
-        >
-          <source src="/Create_a_realistic_cinematic_a.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* ── VIDEO OVERLAY ── */}
-      {!videoFailed && <div className="video-overlay" aria-hidden="true" />}
-
-      {/* ── FALLBACK GRADIENT BLOBS ── */}
-      {videoFailed && (
-        <>
-          <div className="bg-canvas" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-          <div className="bg-overlay" aria-hidden="true" />
-        </>
-      )}
+      {/* ── GRADIENT BLOBS ── */}
+      <div className="bg-canvas" aria-hidden="true">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
+      <div className="bg-overlay" aria-hidden="true" />
 
       {/* ── NAVBAR LOGO ── */}
       <div

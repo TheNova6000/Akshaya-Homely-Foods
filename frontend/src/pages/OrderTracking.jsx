@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Loader2, CheckCircle2, Circle, LogOut, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, Loader2, CheckCircle2, Circle, LogOut } from 'lucide-react';
 import './OrderTracking.css';
 import './CustomerChat.css';
 
@@ -55,6 +55,7 @@ export default function OrderTracking() {
 
       fetchLatestOrder();
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveId(id);
       setResolving(false);
     }
@@ -75,8 +76,8 @@ export default function OrderTracking() {
       return res.json();
     },
     enabled: !resolving && !!activeId,
-    refetchInterval: 5000, // Refresh status every 5 seconds
-    refetchIntervalInBackground: true,
+    refetchInterval: 15000,
+    refetchIntervalInBackground: false,
   });
 
   // Get index of the current status in status array
@@ -213,7 +214,6 @@ export default function OrderTracking() {
               {STATUS_STEPS.map((step, idx) => {
                 const isCompleted = idx < currentIdx;
                 const isActive = idx === currentIdx;
-                const isPending = idx > currentIdx;
 
                 return (
                   <div key={idx} className={`timeline-step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}>

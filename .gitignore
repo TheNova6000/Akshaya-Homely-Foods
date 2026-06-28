@@ -13,6 +13,16 @@ frontend/dist/
 backend/.env
 frontend/.env
 
+# Database
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+
 # Logs
 *.log
 npm-debug.log*
+
+# IDE / Claude
+.claude/
+
+# Reports
+*.docx

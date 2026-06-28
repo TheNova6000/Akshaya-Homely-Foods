@@ -8,7 +8,7 @@ function authenticateCustomer(req, res, next) {
     return res.status(401).json({ error: 'Access token missing or malformed' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET || 'super_secret_jwt_hash_key_123_456', (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err || decoded.role !== 'customer') {
       return res.status(403).json({ error: 'Invalid or expired customer token' });
     }

@@ -163,27 +163,6 @@
   pointer-events: none;
 }
 
-/* Full-screen cinematic background video */
-.bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Dark overlay above the background video to make text readable */
-.video-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* ────────────────────────────────────────────────────────────
    HERO SECTION
 ──────────────────────────────────────────────────────────── */
@@ -597,29 +576,37 @@
 }
 
 .user-bubble {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
   padding: 0.875rem 1.25rem;
   border-radius: 1rem;
   border-top-right-radius: 0.25rem;
   font-size: 0.975rem;
   line-height: 1.6;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.95);
   display: inline-block;
   float: right;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.08);
 }
 
 .bot-bubble {
-  padding: 0.25rem 0;
-  color: rgba(255,255,255,0.88);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.875rem 1.25rem;
+  border-radius: 1rem;
+  border-top-left-radius: 0.25rem;
   font-size: 0.975rem;
-  line-height: 1.7;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-block;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Chat Input */
 .chat-input-section {
-  padding: 1.25rem 1.5rem 1.75rem;
+  padding: 1.25rem 1.5rem calc(1.75rem + env(safe-area-inset-bottom));
   background: linear-gradient(to top, rgba(10, 10, 20, 0.55) 60%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -1327,3 +1314,30 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
+
+/* ────────────────────────────────────────────────────────────
+   MOBILE DEVICES SCALE (320px fold support)
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 340px) {
+  .chat-input-section {
+    padding: 0.75rem 0.5rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+  .input-glass-container {
+    border-radius: 1rem;
+    padding: 0.25rem;
+  }
+  .main-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+  .send-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.75rem;
+  }
+  .premium-navbar {
+    padding: 0 1rem;
+  }
+}
+

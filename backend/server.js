@@ -24,12 +24,14 @@ app.use(cors({
 // Parse JSON request bodies
 app.use(express.json());
 
+const rateLimiter = require('./middleware/rateLimiter');
+
 // Mount API route handlers
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/menu', menuRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/chat', rateLimiter, chatRoutes);
+app.use('/api/whatsapp', rateLimiter, whatsappRoutes);
 app.use('/api/payment', paymentRoutes);
 
 // Health check endpoint

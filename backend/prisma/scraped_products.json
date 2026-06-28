@@ -1,0 +1,555 @@
+[
+  {
+    "name": "Allam (Ginger) Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Ginger-Pickle-in-Jaggery-Sauce.webp",
+    "url": "https://akshayahomelyfoods.com/product/allam-ginger-pickle-1-kg/"
+  },
+  {
+    "name": "Amla Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Instant-Amla-Pickle-_-Nellikai-Oorugai-e1767417231109-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/amla-pickle-1-kg/"
+  },
+  {
+    "name": "Chintakaya (Raw Tamarind) Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-21.jpg",
+    "url": "https://akshayahomelyfoods.com/product/chintakaya-raw-tamarind-pickle-1-kg/"
+  },
+  {
+    "name": "Gongura Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 560,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/SorrelLeavesPickle-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/gongura-pickle-1-kg/"
+  },
+  {
+    "name": "Lemon Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/2-300x300.png",
+    "url": "https://akshayahomelyfoods.com/product/lemon-pickle-1-kg/"
+  },
+  {
+    "name": "Mango Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Green-apple-pickle-2-500x500-1-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/mango-pickle-1-kg/"
+  },
+  {
+    "name": "Pandu Mirchi Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Pandu-Mirchi-Pachadi-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/pandu-mirchi-pickle-1-kg/"
+  },
+  {
+    "name": "Tomato Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/tomato-pickle-recipe-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/tomato-pickle-1-kg/"
+  },
+  {
+    "name": "Velluli (Garlic) Pickle – 1 Kg",
+    "category": "Veg Pickles",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/t0DDwWt9BquvWmDGJUMyZ1lvbLJF8YheJJg8iwsn-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/velluli-garlic-pickle-1-kg/"
+  },
+  {
+    "name": "Chicken Pickle (Bone) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1100,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/product-jpeg-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/chicken-pickle-bone/"
+  },
+  {
+    "name": "Chicken Pickle (Boneless) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1300,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/81GxNOTbLJL._AC_UF8941000_QL80_-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/chicken-pickle-boneless-1-kg/"
+  },
+  {
+    "name": "Country Chicken Pickle (Bone) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1400,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/chicken-with-bone-300x400-1-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/country-chicken-pickle-bone-1-kg/"
+  },
+  {
+    "name": "Country Chicken Pickle (Boneless) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1500,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/81QMOeLVFLL._AC_UF8941000_QL80_-e1767423137957-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/country-chicken-pickle-boneless-1-kg/"
+  },
+  {
+    "name": "Fish Pickle – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1400,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/71KbENonY7L._AC_UF350350_QL80_-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/fish-pickle-1-kg/"
+  },
+  {
+    "name": "Gongura Chicken Pickle (Bone) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/gongura-chicken-pickle-475-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/gongura-chicken-pickle-bone-1-kg/"
+  },
+  {
+    "name": "Gongura Chicken Pickle (Boneless) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/bowl-with-red-pesto-sauce-2025-01-31-23-49-08-utc-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/gongura-chicken-pickle-boneless-1-kg/"
+  },
+  {
+    "name": "Mutton Gongura Pickle – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 2100,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-1-e1767424976299.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/mutton-gongura-pickle-1-kg/"
+  },
+  {
+    "name": "Mutton Pickle (Bone) – 1 Kg",
+    "category": "Non Veg Pickles",
+    "price": 1700,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Mutton-Avakaya-With-Bone-Nageswar-Pickles_medium606115-e1767425476480-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/mutton-pickle-bone-1-kg/"
+  },
+  {
+    "name": "Anjeer Kalakand",
+    "category": "Sweets",
+    "price": 0,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/ab-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/anjeer-kalakand/"
+  },
+  {
+    "name": "Bellam Gavvalu – 1 Kg",
+    "category": "Sweets",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/NP__5074-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/bellam-gavvalu-1-kg/"
+  },
+  {
+    "name": "Bellam Komulu – 1 Kg",
+    "category": "Sweets",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/sitara-foods-bellam-kommulu-homemade-andhra-style-250-gm-product-images-orvqf7qkntn-p593458340-1-202208262249-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/bellam-komulu-1-kg/"
+  },
+  {
+    "name": "Boondi Chikki – 1 Kg",
+    "category": "Sweets",
+    "price": 720,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Boondi-Chikki-Telangana-Style-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/boondi-chikki-1-kg/"
+  },
+  {
+    "name": "Kajjikayalu – 1 Kg",
+    "category": "Sweets",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Kajjikayalu-Bellam-Andhra-Style-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/kajjikayalu-1-kg/"
+  },
+  {
+    "name": "Kaju Burfi &#8211; 1Kg",
+    "category": "Sweets",
+    "price": 1200,
+    "image": "",
+    "url": "https://akshayahomelyfoods.com/product/kaju-burfi/"
+  },
+  {
+    "name": "Kaju Chikki – 1 Kg",
+    "category": "Sweets",
+    "price": 1300,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/3_KAJU_CASHEW_CHIKKI-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/kaju-chikki-1-kg/"
+  },
+  {
+    "name": "Madatha Kaja – 1 Kg",
+    "category": "Sweets",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/madatha_kaja_small_65acaa36-4493-46e3-a08d-0ca8cdc0369b-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/madatha-kaja-1-kg/"
+  },
+  {
+    "name": "Milk Mysore Pak",
+    "category": "Sweets",
+    "price": 0,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/milk-mysore-pak-swagrama-foods_medium_0940534-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/milk-mysore-pak/"
+  },
+  {
+    "name": "Banana chips &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 600,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/banana-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/banana-chips/"
+  },
+  {
+    "name": "Butter murukulu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/butter_600x-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/butter-murukulu/"
+  },
+  {
+    "name": "Chathi chakkalu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/chethi.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/chathi-chakkalu/"
+  },
+  {
+    "name": "Chudavah &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/PohaChivda1-1-680x1024-1-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/chudavah/"
+  },
+  {
+    "name": "Corn Flakes – 1 Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-14.jpg",
+    "url": "https://akshayahomelyfoods.com/product/corn-flakes-1-kg/"
+  },
+  {
+    "name": "Janthikalu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Janthikalu-300x300.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/janthikalu/"
+  },
+  {
+    "name": "Jonna Murukulu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-20.jpg",
+    "url": "https://akshayahomelyfoods.com/product/jonna-murukulu/"
+  },
+  {
+    "name": "Karam pallilu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/karam_palli-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/karam-pallilu/"
+  },
+  {
+    "name": "Pappu chakkalu &#8211; 1Kg",
+    "category": "Snacks Hot Items",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/pappu_chakkalu_267_1-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/pappu-chakkalu/"
+  },
+  {
+    "name": "Anjeer &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Anjeer-–-Benefits-Side-Effects-Uses-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/anjeer/"
+  },
+  {
+    "name": "Badam &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/almond-badam-california-578268_m-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/badam/"
+  },
+  {
+    "name": "Dates &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 700,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/dates-nutrition-facts-2000-367b6229847b4b9887d85b0946806035-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/dates/"
+  },
+  {
+    "name": "Dry Dates &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 600,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/dry-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/dry-dates/"
+  },
+  {
+    "name": "Kaju &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/kaju-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/kaju/"
+  },
+  {
+    "name": "Kismis &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 600,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/kismis-long_1d86fdc6-c297-452c-8dce-fcc3d90fd12f-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/kismis/"
+  },
+  {
+    "name": "Mixed Dry Fruits &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/mix-dry-fruits-500x500-1-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/mixed-dry-fruits/"
+  },
+  {
+    "name": "Pista &#8211; 1Kg",
+    "category": "Dry Fruits",
+    "price": 1600,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/PISTACHIO-IRANI3-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/pista/"
+  },
+  {
+    "name": "Andu korralu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 240,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Andu-Korralu-Little-Millet-300x276.jpg",
+    "url": "https://akshayahomelyfoods.com/product/andu-korralu/"
+  },
+  {
+    "name": "Arekalu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 130,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/arikalu-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/arekalu-2/"
+  },
+  {
+    "name": "Flax Seeds &#8211; 1Kg",
+    "category": "Millets",
+    "price": 220,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Flax-Seeds.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/flax-seeds/"
+  },
+  {
+    "name": "Korralu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 130,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Korralu-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/korralu/"
+  },
+  {
+    "name": "Pink Salt &#8211; 1Kg",
+    "category": "Millets",
+    "price": 120,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Pink-Salt-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/pink-salt/"
+  },
+  {
+    "name": "Sabja ginjalu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 600,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Sabja-Ginjalu-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/sabja-ginjalu/"
+  },
+  {
+    "name": "Samulu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 130,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Saame-1-1-375x375-1-300x300.png",
+    "url": "https://akshayahomelyfoods.com/product/samulu/"
+  },
+  {
+    "name": "Udalu &#8211; 1Kg",
+    "category": "Millets",
+    "price": 130,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Udalu-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/udalu/"
+  },
+  {
+    "name": "Dosa Karam Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-22.jpg",
+    "url": "https://akshayahomelyfoods.com/product/dosa-podi/"
+  },
+  {
+    "name": "Flax Seeds Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/flax-seed-podi-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/flax-seeds-podi/"
+  },
+  {
+    "name": "Idly Karam Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/idly-karam-podi-1-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/idly-karam-podi/"
+  },
+  {
+    "name": "Kandi Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/ygVUQXjHId-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/kandi-podi/"
+  },
+  {
+    "name": "Karivepaku Podi-1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Karivepaku-Podi-2-3-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/karivepaku-podi/"
+  },
+  {
+    "name": "Kothimeera Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/kothimeera_podi-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/kothimeera-podi/"
+  },
+  {
+    "name": "Menti Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Menthi_Podi-1024x683-1-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/menti-podi/"
+  },
+  {
+    "name": "Munugaku Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/41wtz3K6TKL._AC_UF8941000_QL80_-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/munugaku-podi/"
+  },
+  {
+    "name": "Nalla Karam Podi &#8211; 1Kg",
+    "category": "Powders Podis",
+    "price": 900,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/karam-podi_550-300x300.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/nalla-karam-podi/"
+  },
+  {
+    "name": "Biryani Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/biryani-masala-378498351-096a2-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/biryani-masala/"
+  },
+  {
+    "name": "Chicken Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Chicken-Masala-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/chicken-masala/"
+  },
+  {
+    "name": "Donne Biryani Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/donne-biryani-masala-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/donne-biryani-masala/"
+  },
+  {
+    "name": "Garam Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/garam-masala-500x500-1-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/garam-masala/"
+  },
+  {
+    "name": "Mirchi Powder &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/chilli-powder-pack-of-4-muni-s_medium_0486343-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/mirchi-powder/"
+  },
+  {
+    "name": "Mutton Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Mutton-Masala-Powder-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/mutton-masala/"
+  },
+  {
+    "name": "Pasupu &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/PasupuTurmaric-Powder-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/pasupu/"
+  },
+  {
+    "name": "Rasam Masala &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/rasam-powder-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/rasam-masala/"
+  },
+  {
+    "name": "Rasam Podi &#8211; 1Kg",
+    "category": "Masala Spices",
+    "price": 480,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/rasam-powder.20240213022750-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/rasam-podi/"
+  },
+  {
+    "name": "Besan Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 620,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/rava-besan-ladoo-1-1024x1536-1-e1767419174290-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/besan-laddu-1-kg/"
+  },
+  {
+    "name": "Coconut Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 620,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-23.jpg",
+    "url": "https://akshayahomelyfoods.com/product/coconut-laddu-1-kg/"
+  },
+  {
+    "name": "Dry Fruit Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 800,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/2_c9e31e12-ba64-4aab-8d79-663a4e6a2226_1800x1800-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/dry-fruit-laddu-1-kg/"
+  },
+  {
+    "name": "Gond Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 1200,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-19.jpg",
+    "url": "https://akshayahomelyfoods.com/product/gond-laddu-1-kg/"
+  },
+  {
+    "name": "Jonna Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/nastar-or-ananas-taartjes-or-pineapple-tart-usual-2025-03-27-04-38-07-utc-300x300.jpg",
+    "url": "https://akshayahomelyfoods.com/product/jonna-laddu-1-kg/"
+  },
+  {
+    "name": "Kajuram Palli Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 620,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/69sSFBbd-300x300.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/kajuram-palli-laddu-1-kg/"
+  },
+  {
+    "name": "Malai Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 800,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/Easy-Homemade-Malai-Laddu-10-FEATURE-300x300.jpeg",
+    "url": "https://akshayahomelyfoods.com/product/malai-laddu-1-kg/"
+  },
+  {
+    "name": "Nuvvula Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 620,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/images-18.jpg",
+    "url": "https://akshayahomelyfoods.com/product/nuvvula-laddu-1-kg/"
+  },
+  {
+    "name": "Ragi Laddu – 1 Kg",
+    "category": "Traditional Laddus",
+    "price": 520,
+    "image": "https://akshayahomelyfoods.com/wp-content/uploads/2025/12/ragi.Laddubox_grande-300x300.webp",
+    "url": "https://akshayahomelyfoods.com/product/ragi-laddu-1-kg/"
+  }
+]
